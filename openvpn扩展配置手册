@@ -33,9 +33,24 @@ linux服务端：
 
 扩展：
 server.conf
+	路由：
+		服务端推送路由规则：
+			push "route 10.0.0.0 255.0.0.0 vpn_gateway"  #vpn网关
+			push "route 10.0.0.0 255.0.0.0 net_gateway" #本地net上网网关
+		客户端：
+			route 10.0.0.0 255.0.0.0 vpn_gateway  #vpn网关
+			route 10.0.0.0 255.0.0.0 net_gateway  #本地net上网网关
+
 	client-config-dir /etc/openvpn/ccd  #cdd目录下对应的文件名为客户端证书名
-		/etc/openvpn/ccd/client1:  ifconfig-push 10.8.0.2 10.8.0.3   
+		/etc/openvpn/ccd/client1:  ifconfig-push 10.8.0.1 10.8.0.2		
 			ifconfig-push 后面是紧跟着两个连续的成组IP地扯，以第一个为客户端的IP地扯。
+		注意：
+			openvpn只支持255.255.255.252 的子网，而且252的子网只有两个IP，一个分配给客户端，一个留给服务器用.
+			所以ccd目录下面的文件内容只能是：
+			ifconfig-push 192.168.0.1 192.168.0.2
+			ifconfig-push 192.168.0.5 192.168.0.6
+			ifconfig-push 192.168.0.9 192.168.0.10
+			ifconfig-push 192.168.0.13 192.168.0.14
 
 	duplicate-cn   #允许一个客户端证书同时被多个终端使用
 	max-clients 1000  #客户端链接最大数量

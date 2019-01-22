@@ -97,7 +97,7 @@ create_client_conf(){ #创建客户端client.conf文件
 	cat << EOF >> ${config_path}/client.conf
 client         #指定当前VPN是客户端
 dev tun        #必须与服务器端的保持一致
-proto udp      #必须与服务器端的保持一致
+proto tcp      #必须与服务器端的保持一致
 remote $IP 1194      #指定连接的远程服务器的实际IP地址和端口号
 resolv-retry infinite    #断线自动重新连接，在网络不稳定的情况下(例如：笔记本电脑无线网络)非常有用。
 nobind         #不绑定特定的本地端口号

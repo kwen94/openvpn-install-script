@@ -1,7 +1,7 @@
 #!/bin/bash
 #Description: install openvpn and create server certificate
-#Version: v1.0 v2.0 v3.0
-#Date: 2017-08-30 2018-05-26 2018-06-15
+#Version: v1.0 v2.0 v3.0 v4.0
+#Date: 2017-08-30 2018-05-26 2018-06-15 2018-07-09
 #Author: kongxiangwen
 #Email: 981651697@qq.com
 
@@ -314,7 +314,7 @@ create_server_conf(){ #创建server端配置文件以及目录
 cat << EOF >> /usr/local/${vpn_src_dir}config/server.conf 
 local $IP     #指定监听的本机IP(因为有些计算机具备多个IP地址)，该命令是可选的，默认监听所有IP地址。
 port 1194             #指定监听的本机端口号
-proto udp             #指定采用的传输协议，可以选择tcp或udp
+proto tcp             #指定采用的传输协议，可以选择tcp或udp
 dev tun               #指定创建的通信隧道类型，可选tun或tap
 ca ca.crt             #指定CA证书的文件路径
 cert server.crt       #指定服务器端的证书文件路径
@@ -352,6 +352,14 @@ extend(){ #扩展配置
 	if [ "`input_choice ${route}`" == "yes" ];then
 		echo 'push "redirect-gateway def1 bypass-dhcp"' >> ${server_conf_path}
 		check '客户端默认路由走openvpn'
+		echo
+	else
+		read -p '是否需要给客户端推送静态路由，访问指定的网络号时走openvpn网络，直接回车为不设置,键入(yes/no)：' intranet_route
+		if [ "`input_choice ${intranet_route}`" == "yes" ];then
+			read -p "输入静态路由的网络号和子网掩码(例：172.16.0.0 255.255.0.0): " intranet_route_info
+			echo "push \"route ${intranet_route_info} vpn_gateway \"" >> ${server_conf_path}
+			check '客户端推送静态路由' 
+		fi
 	fi
 	echo
 	read -p '是否需要开启客户端密码认证，直接回车为不设置,键入(yes/no)：' auth_pass
