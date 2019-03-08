@@ -472,6 +472,7 @@ client_sh_check(){ #客户端脚本存在性检测
 	#echo "启动方法：cd /usr/local/${vpn_src_dir}config ; /usr/local/${vpn_src_dir}sbin/openvpn server.conf &"
 	[ -f $script_dir/openvpn_create_client.sh ] || { action "当前目录下openvpn_create_client.sh 检测" /bin/false; echo ; echo "请将openvpn_create_client.sh置于/usr/local/${vpn_src_dir}下"; exit 200; }
 	cp $script_dir/openvpn_create_client.sh /usr/local/${vpn_src_dir}
+	chmod u+x /usr/local/${vpn_src_dir}/openvpn_create_client.sh
 	echo
 	echo -e "服务端启动方式\033[33m systemctl start openvpn\033[0m"
 	echo "创建客户端证书的脚本路径为： /usr/local/${vpn_src_dir}openvpn_create_client.sh"
