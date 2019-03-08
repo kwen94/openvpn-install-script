@@ -55,7 +55,6 @@ devel_pkg_check(){  #检测必要软件包的安装
 			fi
 		done
 		if [ ! -z "${software}" ];then
-			echo "安装软件包: ${software}"
 			yum -y install ${software} &> /dev/null
 			check "yum -y install ${software}"
 		fi
