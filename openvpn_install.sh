@@ -49,7 +49,7 @@ check(){ #格式化输出结果
 devel_pkg_check(){  #检测必要软件包的安装
 	if [ -f "/etc/redhat-release" ];then
 		software=''
-		for i in `echo -e "unzip\ngcc\ngcc-c++\nlibgcc\ngcc-gfortran\nopenssl-devel\nlzo-devel\npam-devel\nexpect"`;do
+		for i in `echo -e "unzip\ngcc\ngcc-c++\nlibgcc\ngcc-gfortran\nopenssl-devel\nlzo-devel\npam-devel\nexpect\nnet-tools"`;do
 			if ! rpm -qa| grep -q $i;then
 				software="${software} $i"
 			fi
